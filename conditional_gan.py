@@ -185,7 +185,12 @@ for epoch in range(args.n_epochs):
         if batches_done % args.sample_interval == 0:
             noise = Variable(torch.FloatTensor(np.random.normal(0, 1, (N_Class**2, args.latent_dim))).cuda())
             #fixed labels
-            y_ = torch.LongTensor(np.array([num for num in range(N_Class)])).view(N_Class,1).expand(-1,N_Class).contiguous()
+            y_ = (
+                torch.LongTensor(np.array(list(range(N_Class))))
+                .view(N_Class, 1)
+                .expand(-1, N_Class)
+                .contiguous()
+            )
             y_fixed = torch.zeros(N_Class**2, N_Class)
             y_fixed = Variable(y_fixed.scatter_(1,y_.view(N_Class**2,1),1).cuda())
 
